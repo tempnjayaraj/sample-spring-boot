@@ -9,6 +9,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,10 +28,10 @@ public class SampleController {
 	
 	@RequestMapping(value = "/falseEndPoint", method = RequestMethod.GET)
 	@ResponseBody
-	public Boolean returnFalse() {
-		return false;
+	public ResponseEntity<?> returnFalse() {
+		return new ResponseEntity<>(false, HttpStatus.SERVICE_UNAVAILABLE);
 	}
-	
+		
 	@RequestMapping(value = "/trueEndPoint", method = RequestMethod.GET)
 	@ResponseBody
 	public Boolean returnTrue() {
@@ -38,7 +40,7 @@ public class SampleController {
 
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	@ResponseBody
-	public Boolean validateUser(@RequestBody JSONObject user)
+	public ResponseEntity<?> validateUser(@RequestBody JSONObject user)
 			throws UnsupportedEncodingException, IOException, ParseException {
 		String username = (String) user.get("username");
 		String password = (String) user.get("password");
@@ -51,10 +53,10 @@ public class SampleController {
 			String testuname = (String) obj.get("username");
 			String testpass = (String) obj.get("password");
 			if(testuname.equals(username)&&testpass.equals(password)) {
-				return true;
+				return new ResponseEntity<>(true, HttpStatus.OK);
 			}
 		}
-		return false;
+		return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
 	}
 	
 	@RequestMapping(value = "/calculate", method = RequestMethod.POST)
