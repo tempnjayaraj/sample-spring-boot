@@ -20,7 +20,7 @@ class SampleApplicationTests {
 	@Test
     public void getString() throws Exception {
         ResponseEntity<String> response = template.getForEntity("/", String.class);
-        assertThat(response.getBody()).isEqualTo("Hello World");
+        assertThat(response.getBody()).isEqualTo("Greetings from Spring Boot");
     }
 
 }
